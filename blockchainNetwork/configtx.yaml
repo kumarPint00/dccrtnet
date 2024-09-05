@@ -1,0 +1,179 @@
+Organizations:
+  - &OrdererOrg
+    Name: Orderer
+    ID: OrdererMSP
+    MSPDir: crypto-config/ordererOrganizations/certification-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+
+  - &aktu
+    Name: aktuMSP
+    ID: aktuMSP
+    MSPDir: crypto-config/peerOrganizations/aktu.certification-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('aktuMSP.admin', 'aktuMSP.peer', 'aktuMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('aktuMSP.admin', 'aktuMSP.peer', 'aktuMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('aktuMSP.admin', 'aktuMSP.peer', 'aktuMSP.client')"
+    AnchorPeers:
+      - Host: peer0.aktu.certification-network.com
+        Port: 7051
+
+  - &upgov
+    Name: upgovMSP
+    ID: upgovMSP
+    MSPDir: crypto-config/peerOrganizations/upgov.certification-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('upgovMSP.admin', 'upgovMSP.peer', 'upgovMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('upgovMSP.admin', 'upgovMSP.peer', 'upgovMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('upgovMSP.admin', 'upgovMSP.peer', 'upgovMSP.client')"
+    AnchorPeers:
+      - Host: peer0.upgov.certification-network.com
+        Port: 9051
+
+  - &mgm
+    Name: mgmMSP
+    ID: mgmMSP
+    MSPDir: crypto-config/peerOrganizations/mgm.certification-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('mgmMSP.admin', 'mgmMSP.peer', 'mgmMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('mgmMSP.admin', 'mgmMSP.peer', 'mgmMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('mgmMSP.admin', 'mgmMSP.peer', 'mgmMSP.client')"
+    AnchorPeers:
+      - Host: peer0.mgm.certification-network.com
+        Port: 11051
+
+
+
+#Capabilities
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V1_4_3: true
+    V1_3: false
+    V1_1: false
+  Orderer: &OrdererCapabilities
+    V1_4_2: true
+    V1_1: false
+  Application: &ApplicationCapabilities
+    V1_4_2: true
+    V1_3: false
+    V1_2: false
+    V1_1: false
+
+#Application
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies: &ApplicationDefaultPolicies
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+  Capabilities: *ApplicationCapabilities
+
+#Orderer
+Orderer: &OrdererDefaults
+  OrdererType: solo
+  Addresses:
+    - orderer.certification-network.com:7050
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Capabilities: *OrdererCapabilities
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+    # BlockValidation specifies what signatures must be included in the block
+    # from the orderer for the peer to validate it.
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+  Policies:
+    # Who may invoke the 'Deliver' API
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    # Who may invoke the 'Broadcast' API
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    # By default, who may modify elements at this config level
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+
+#Profiles
+Profiles:
+  OrdererGenesis:
+    <<: *ChannelDefaults
+    Capabilities:
+      <<: *ChannelCapabilities
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities:
+        <<: *OrdererCapabilities
+    Consortiums:
+      CertificationConsortium:
+        Organizations:
+          - *aktu
+          - *upgov
+          - *mgm
+
+  CertificationChannel:
+    Consortium: CertificationConsortium
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *aktu
+        - *upgov
+        - *mgm
+      Capabilities:
+        <<: *ApplicationCapabilities
