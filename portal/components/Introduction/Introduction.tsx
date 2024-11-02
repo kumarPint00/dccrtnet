@@ -3,6 +3,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import SecurityIcon from '@mui/icons-material/Security';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import SchoolIcon from '@mui/icons-material/School';
+import Benefits from './Benefits';
 
 const PlatformIntroduction = () => {
   return (
@@ -10,16 +11,17 @@ const PlatformIntroduction = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          height: '60vh',
+          height: '70vh',
           backgroundImage: `url(/backgrounddcn.webp)`, // Corrected image path
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'white',
+          color: 'yellow',
           textAlign: 'center',
-          p: 3,
+          mt: 333,
+          width: '130%',
         }}
       >
         <Container>
@@ -39,6 +41,7 @@ const PlatformIntroduction = () => {
           </Button>
         </Container>
       </Box>
+      <Benefits />
 
       {/* Features Section */}
       <Container sx={{ py: 6 }}>
