@@ -22,6 +22,7 @@ const PlatformIntroduction = () => {
           color: 'yellow',
           textAlign: 'center',
           width: '100%', // Ensure it fits the screen width
+          mt: 400, // Offset the navbar height
         }}
       >
         <Container>
