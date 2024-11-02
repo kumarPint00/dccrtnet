@@ -47,7 +47,7 @@ const Navbar = () => {
   );
 
   return (
-    <AppBar position="fixed" color="primary">
+    <AppBar position="sticky" color="primary">
       <Toolbar>
         {/* Insert Logo Component */}
         <Logo />

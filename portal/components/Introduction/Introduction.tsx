@@ -4,6 +4,7 @@ import SecurityIcon from '@mui/icons-material/Security';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import SchoolIcon from '@mui/icons-material/School';
 import Benefits from './Benefits';
+import NewsUpdates from '../NewsAndFeeds/News';
 
 const PlatformIntroduction = () => {
   return (
@@ -201,6 +202,7 @@ const PlatformIntroduction = () => {
           </Button>
         </Container>
       </Box>
+      <NewsUpdates/>
     </Box>
   );
 };
