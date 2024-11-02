@@ -13,7 +13,7 @@ const PlatformIntroduction = () => {
       <Box
         sx={{
           height: '70vh',
-          backgroundImage: `url(/backgrounddcn.webp)`, // Corrected image path
+          backgroundImage: `url(/backgrounddcn.webp)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
@@ -21,8 +21,7 @@ const PlatformIntroduction = () => {
           justifyContent: 'center',
           color: 'yellow',
           textAlign: 'center',
-          mt: 333,
-          width: '130%',
+          width: '100%', // Ensure it fits the screen width
         }}
       >
         <Container>
@@ -42,6 +41,8 @@ const PlatformIntroduction = () => {
           </Button>
         </Container>
       </Box>
+
+      {/* Benefits Component */}
       <Benefits />
 
       {/* Features Section */}
@@ -146,7 +147,7 @@ const PlatformIntroduction = () => {
         </Container>
       </Box>
 
-      {/* Benefits Section */}
+      {/* Additional Benefits Section */}
       <Container sx={{ py: 6 }}>
         <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
           Why Choose Us?
@@ -202,7 +203,9 @@ const PlatformIntroduction = () => {
           </Button>
         </Container>
       </Box>
-      <NewsUpdates/>
+
+      {/* News & Updates Section */}
+      <NewsUpdates />
     </Box>
   );
 };
